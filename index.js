@@ -83,7 +83,7 @@ app.use('/adminMessage', messageRoutes);//管理員訂單相關api
 
 
 
-// ✅ 啟動伺服器
+// 啟動伺服器 
 app.listen(process.env.PORT, () => {
-    console.log(`伺服器啟動於 http://localhost:${process.env.PORT}`);
+    console.log(`伺服器啟動`);
 });
