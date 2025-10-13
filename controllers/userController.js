@@ -235,7 +235,12 @@ const trimToNull = (data) => {
 
   //登出
   exports.logout = (req, res) => {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+      httpOnly: true,   // 與登入時一致
+      secure: true,     // 與登入時一致
+      sameSite: 'none', // 與登入時一致
+      path: '/',        // 與登入時一致
+    });
     res.json({ message: '登出成功' });
   };
 

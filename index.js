@@ -21,7 +21,7 @@ app.use(cookieParser());// 將 Cookie 字串轉換成token讓後端可以讀取
 
 //中介層設定
     //讓代理伺服器(render)所追加的標頭/資料通過
-    app.set('trust proxy', 1);
+    app.set('trust proxy', 2);
 
     app.use(cors({
         origin: [   'http://localhost:5173','http://localhost:5174',
