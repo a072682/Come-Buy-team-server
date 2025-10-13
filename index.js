@@ -15,12 +15,14 @@ const messageRoutes = require('./routes/messageRoutes');//引入留言相關用A
 const googleAuthRoutes = require('./routes/googleAuthRoutes');//引入登入googleApi
 const proxyRoutes = require('./routes/proxyRoutes');
 
-
 app.use(express.json());// 解析 JSON 格式的 request body
 
 app.use(cookieParser());// 將 Cookie 字串轉換成token讓後端可以讀取
 
 //中介層設定
+    //讓代理伺服器(render)所追加的標頭/資料通過
+    app.set('trust proxy', 1);
+
     app.use(cors({
         origin: [   'http://localhost:5173','http://localhost:5174',
                     'https://a072682.github.io',

@@ -148,8 +148,9 @@ const trimToNull = (data) => {
 
       res.cookie('token', token, {
         httpOnly: true,       // ✅ 只能被伺服器端讀取，無法用 JS 讀取，有效防範 XSS 攻擊
-        secure: false,        // ✅ 若是 HTTPS，建議設為 true
-        sameSite: 'lax',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
+        secure: true,        // ✅ 若是 HTTPS，建議設為 true
+        sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
+        path: '/',            // 全站有效
         maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ 設定 cookie 的存活時間，這裡是 7 天
       });
 
