@@ -24,15 +24,18 @@ app.use(cookieParser());// 將 Cookie 字串轉換成token讓後端可以讀取
     app.use(cors({
         origin: [   'http://localhost:5173','http://localhost:5174',
                     'https://a072682.github.io',
-                    'https://a072682.github.io/Come-Buy-Back-team-work', // 管理員網站
-                    'https://a072682.github.io/Come-Buy-team-work'], // 前台網站
+                ],
         // 允許的前端來源     
         credentials: true,
         methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],// 可允許的方法
         allowedHeaders: ['Content-Type', 'Authorization'],// 可允許的自訂標頭
     }));
 
-    app.options('*', cors());
+    //當前端有請求時請cors進行處理
+    //origin(白名單)
+    //credentials(是否允許攜帶cookie)
+    app.options('*', cors({ origin: [ 'http://localhost:5173','http://localhost:5174','https://a072682.github.io'], 
+                            credentials: true, }));
 //中介層設定
 
 // 新的 proxy 路由
