@@ -23,6 +23,8 @@ const defaultUserData =
     avatar_id:null
 }
 
+console.log('GOOGLE_CALLBACK_URL =', process.env.GOOGLE_CALLBACK_URL);
+
 // 註冊 Google 登入策略
 passport.use(//預設名稱為"google"如果想改名則
     //'google-login', // <-- 如果要自訂策略名稱
@@ -31,7 +33,6 @@ passport.use(//預設名稱為"google"如果想改名則
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,    // 從 .env 讀取 Google OAuth client secret
         callbackURL: process.env.GOOGLE_CALLBACK_URL,      // 登入成功後會 redirect 回來的網址
     },
-    console.log('GOOGLE_CALLBACK_URL =', process.env.GOOGLE_CALLBACK_URL),
     //Google 驗證成功後，會「自動把使用者資訊打包成 profile 給你」，你就能從 profile 拿到：
     // profile.id → Google ID
     // profile.displayName → 使用者名稱
