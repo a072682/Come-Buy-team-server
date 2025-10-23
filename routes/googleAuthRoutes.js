@@ -39,7 +39,7 @@ router.get('/callback', passport.authenticate('google', { session: false }),
     });
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）
-    res.redirect('http://localhost:5173/#/'); // ✅ 可改成你的前端登入成功頁
+    res.redirect('https://a072682.github.io/Come-Buy-team-work/#/'); // ✅ 可改成你的前端登入成功頁
   }
 );
 
