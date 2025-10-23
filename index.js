@@ -93,5 +93,5 @@ app.use('/adminMessage', messageRoutes);//管理員訂單相關api
 
 // 啟動伺服器 
 app.listen(process.env.PORT, () => {
-    console.log(`伺服器啟動`);
+    console.log(`伺服器啟動`,process.env.PORT);
 });
