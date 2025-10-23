@@ -152,7 +152,10 @@ const trimToNull = (data) => {
         secure: true,        // ✅ 若是 HTTPS，建議設為 true
         sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
         path: '/',            // 全站有效
-        maxAge: 30 * 60 * 1000, // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
+        // maxAge: 30 * 60 * 1000, 
+        // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
+        maxAge: 5 * 60 * 1000,
+        //測試5分鐘
       });
 
       res.json({
