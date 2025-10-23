@@ -154,8 +154,8 @@ const trimToNull = (data) => {
         path: '/',            // 全站有效
         // maxAge: 30 * 60 * 1000, 
         // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
-        maxAge: 5 * 60 * 1000,
-        //測試5分鐘
+        maxAge: 10 * 60 * 1000,
+        //測試10分鐘
       });
 
       res.json({

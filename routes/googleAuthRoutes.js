@@ -39,8 +39,8 @@ router.get('/callback', passport.authenticate('google', { session: false }),
       path: '/',
       // maxAge: 30 * 60 * 1000, 
       // 有效期：30分鐘
-      maxAge: 5 * 60 * 1000, 
-      //測試5分鐘
+      maxAge: 10 * 60 * 1000, 
+      //測試10分鐘
     });
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）

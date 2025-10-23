@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const ACCESS_TTL_MS = 30 * 60 * 1000;   // 30 分鐘
 const RENEW_THRESHOLD_MS = 15 * 60 * 1000; // 剩 < 15 分才續
 const ABSOLUTE_MAX_MS = 12 * 60 * 60 * 1000; // 絕對上限 12 小時
-const testTiem = 5 * 60 * 1000; // 5分鐘
-const testTiem2 = 3 * 60 * 1000; // 5分鐘
+const testTiem = 10 * 60 * 1000; // 10分鐘
+const testTiem2 = 5 * 60 * 1000; // 5分鐘
 
 function verifycookie(req, res, next){
   // 讀取cookie 中的token
@@ -33,6 +33,7 @@ function verifycookie(req, res, next){
     //只要有設定jwt.sign(payload, secret, { expiresIn: 'xxx' })就會變成exp加入token
     //token的到期時間
     const expMs = decoded.exp * 1000;
+    console.log("到期時間:",expMs);
 
     //token的剩餘時間
     const remaining = expMs - nowMs;
@@ -50,7 +51,7 @@ function verifycookie(req, res, next){
     // 只有在「快到期」才續期（節流）
     //如果剩餘時間小於15分鐘才進行延續
     //測試3分鐘
-    if (remaining < testTiem2) {
+    if (remaining <= testTiem2) {
       // 1) 重簽一顆「再活 30 分鐘」的新 JWT（保留 origIatMs）
       const newToken = jwt.sign(
         {
