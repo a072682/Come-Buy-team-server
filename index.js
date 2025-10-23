@@ -3,8 +3,10 @@ const app = express();//宣告express讓其可以使用app.get(), app.post()等�
 const pool = require('./db/db');// 載入我們自己寫的資料庫連線模組（也就是 db.js）
 const cors = require('cors');//匯入中介層套件工具
 const cookieParser = require('cookie-parser');//將 Cookie 字串轉換成token讓後端可以讀取
+const passport = require('passport');      //載入 passport(google登入套件需要)
 require('dotenv').config();// 載入 dotenv 以支援 .env 環境變數
 require('./googleAuth/google');//引入登入google成功後運行的套件
+
 
 const avatarImgUploadRoutes = require('./routes/avatarImgUploadRoutes'); //會員頭像圖片上傳用api
 const userRoutes = require('./routes/userRoutes'); //會員相關用api
@@ -18,6 +20,9 @@ const proxyRoutes = require('./routes/proxyRoutes');
 app.use(express.json());// 解析 JSON 格式的 request body
 
 app.use(cookieParser());// 將 Cookie 字串轉換成token讓後端可以讀取
+
+//初始化 Passport（要在app.use('/google', googleAuthRoutes)前）
+app.use(passport.initialize()); 
 
 //中介層設定
     //讓代理伺服器(render)所追加的標頭/資料通過
@@ -38,7 +43,7 @@ app.use(cookieParser());// 將 Cookie 字串轉換成token讓後端可以讀取
     //credentials(是否允許攜帶cookie)
     app.options(/.*/, cors({ origin: [ 'http://localhost:5173','http://localhost:5174','https://a072682.github.io'], 
                             credentials: true, }));
-//中介層設定
+//中介層設定   
 
 // 新的 proxy 路由
 app.use('/api', proxyRoutes);
