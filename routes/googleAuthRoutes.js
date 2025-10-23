@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken'); // 用來產生 JWT Token
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email'], // 請求使用者的公開資訊與 Email
 }));
-//當前端打 /auth/google（假設你等下 mount 在 /auth），passport 會接手並立刻：
+//當前端打 /google/google（假設你等下 index.js 在 /google），passport 會接手並立刻：
 //把使用者到 Google 的同意頁（Scope 要求取用 profile 和 email）。
 
 // 2️⃣ Google 成功驗證後回傳到這個路由（已設定在 Google Cloud Console 的 redirect URI）
