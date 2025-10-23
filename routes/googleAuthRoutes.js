@@ -36,6 +36,7 @@ router.get('/callback', passport.authenticate('google', { session: false }),
       httpOnly: true,          // 只能被後端讀取，避免 XSS
       secure: true,
       sameSite: 'none',
+      path: '/',
       maxAge: 30 * 60 * 1000, // 有效期：30分鐘
     });
 
