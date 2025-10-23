@@ -27,13 +27,15 @@ router.get('/callback', passport.authenticate('google', { session: false }),
       email: req.user.email,
       role: req.user.role,
       auth_provider:req.user.auth_provider
-    }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    }, process.env.JWT_SECRET,  { expiresIn: Math.floor(30 * 60 * 1000 / 1000) + 's' }); //過期時間"1800s"
 
     // 把 Token 寫入 Cookie，提供前端認證用
     res.cookie('token', token, {
       httpOnly: true,          // 只能被後端讀取，避免 XSS
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 有效期：7天
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+      maxAge: 30 * 60 * 1000, // 有效期：30分鐘
     });
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）

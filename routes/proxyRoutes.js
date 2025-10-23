@@ -1,4 +1,6 @@
 // routes/proxy.routes.js
+//此路由作用為前端使用api時會回傳
+//目前沒用到
 const express = require('express');              // 改成 require
 const axios = require('axios');                  // 改成 require
 const router = express.Router();

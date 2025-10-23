@@ -13,8 +13,9 @@ const pool = new Pool({ // 建立一個新的 Pool 實例，裡面傳入連線�
 
 //上傳至render時請更改內容
     connectionString: process.env.DATABASE_URL,
-    // 外部連線一定要 SSL；多數情況要關閉嚴格驗證
+    
     ssl: { rejectUnauthorized: false },
+    // 外部連線一定要 SSL；多數情況要關閉嚴格驗證
 //上傳至render時請更改內容
 });
 
