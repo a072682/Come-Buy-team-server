@@ -9,6 +9,8 @@ const jwt = require('jsonwebtoken'); // 用來產生 JWT Token
 // 1️⃣ 使用者點擊「Google 登入」按鈕時，導向 Google 認證頁面
 router.get('/google', passport.authenticate('google', {
   scope: ['profile', 'email'], // 請求使用者的公開資訊與 Email
+  // 每次都跳出帳號選擇器
+  prompt: 'select_account',         // 每次都跳出帳號選擇器
 }));
 //當前端打 /google/google（假設你等下 index.js 在 /google），passport 會接手並立刻：
 //把使用者到 Google 的同意頁（Scope 要求取用 profile 和 email）。
