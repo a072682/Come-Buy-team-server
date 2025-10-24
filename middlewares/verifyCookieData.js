@@ -58,8 +58,8 @@ function verifycookie(req, res, next){
     // 只有在「快到期」才續期（節流）
     //如果剩餘時間小於15分鐘才進行延續
     //測試5分鐘
-    if (remaining <= testTiem2) {
-      console.log("時間不足5分鐘");
+    if (remaining <= RENEW_THRESHOLD_MS) {
+      console.log("時間不足15分鐘");
       // 1) 重簽一顆「再活 30 分鐘」的新 JWT（保留 origIatMs）
       const newToken = jwt.sign(
         {
@@ -71,10 +71,8 @@ function verifycookie(req, res, next){
           origIatMs, // 保留首次登入時間，別重置
         },
         process.env.JWT_SECRET,
-        // { expiresIn: Math.floor(ACCESS_TTL_MS / 1000) + 's' } 
+        { expiresIn: Math.floor(ACCESS_TTL_MS / 1000) + 's' } 
         // 1800s
-        { expiresIn: Math.floor(testTiem / 1000) + 's' }
-        //測試5分鐘
       );
 
       // 2) 用同名 cookie 寫回（覆蓋），讓 cookie 也再活 30 分鐘
@@ -83,9 +81,7 @@ function verifycookie(req, res, next){
         secure: true,     // 本機 http 測試可暫時設 false；正式 https 要 true
         sameSite: 'none',  // 跨站才用 'none'（且需 secure:true）
         path: '/',
-        // maxAge: ACCESS_TTL_MS,
-        maxAge: testTiem,
-        //測試5分鐘
+        maxAge: ACCESS_TTL_MS,
         // （可選）domain: '.yourdomain.com' 需要跨子網域時再加
       });
       console.log("token以延續");
