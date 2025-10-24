@@ -33,10 +33,11 @@ function verifycookie(req, res, next){
     //只要有設定jwt.sign(payload, secret, { expiresIn: 'xxx' })就會變成exp加入token
     //token的到期時間
     const expMs = decoded.exp * 1000;
-    console.log("到期時間:",expMs);
+    console.log("到期時間:", new Date(expMs).toLocaleString());
 
     //token的剩餘時間
     const remaining = expMs - nowMs;
+    console.log("剩餘時間:", new Date(remaining).toLocaleString());
 
     // 絕對上限：首次登入時間（舊 token 可能沒有，就用現在兜住）
     //取得首次登入時間
@@ -50,8 +51,9 @@ function verifycookie(req, res, next){
 
     // 只有在「快到期」才續期（節流）
     //如果剩餘時間小於15分鐘才進行延續
-    //測試3分鐘
+    //測試5分鐘
     if (remaining <= testTiem2) {
+      console.log("時間不足5分鐘");
       // 1) 重簽一顆「再活 30 分鐘」的新 JWT（保留 origIatMs）
       const newToken = jwt.sign(
         {
