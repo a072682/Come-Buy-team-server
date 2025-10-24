@@ -33,11 +33,17 @@ function verifycookie(req, res, next){
     //只要有設定jwt.sign(payload, secret, { expiresIn: 'xxx' })就會變成exp加入token
     //token的到期時間
     const expMs = decoded.exp * 1000;
-    console.log("到期時間:", new Date(expMs).toLocaleString());
+    console.log(
+      '到期時間(台北):',
+      new Date(expMs).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
+    );
 
     //token的剩餘時間
     const remaining = expMs - nowMs;
-    console.log("剩餘時間:", new Date(remaining).toLocaleString());
+    const remainingSec = Math.max(0, Math.floor(remaining / 1000));
+    const mm = Math.floor(remainingSec / 60);
+    const ss = remainingSec % 60;
+    console.log(`剩餘時間: ${mm}分 ${ss}秒（${remainingSec}s）`);
 
     // 絕對上限：首次登入時間（舊 token 可能沒有，就用現在兜住）
     //取得首次登入時間
