@@ -6,23 +6,21 @@ const jwt = require('jsonwebtoken');
 const ACCESS_TTL_MS = 60 * 60 * 1000;   // 60 分鐘
 const RENEW_THRESHOLD_MS = 15 * 60 * 1000; // 剩 < 15 分才續
 const ABSOLUTE_MAX_MS = 12 * 60 * 60 * 1000; // 絕對上限 12 小時
-const testTiem = 10 * 60 * 1000; // 10分鐘
-const testTiem2 = 5 * 60 * 1000; // 5分鐘
 
-function verifycookie(req, res, next){
-  // 讀取cookie 中的user_token
-  const user_token = req.cookies.user_token;
+function adminVerifyCookieData(req, res, next){
+  // 讀取cookie 中的user_token admin_token user_token
+  const admin_token = req.cookies.admin_token;
   // 讀取cookie 中的user_token
   
   // 如果沒有token則回報錯誤
-  if (!user_token) {
+  if (!admin_token) {
     return res.status(401).json({ error: '未登入或 token 遺失' });
   }
   // 如果沒有token則回報錯誤
 
   try {
     //驗證token，驗證過後放入req.user
-    const decoded = jwt.verify(user_token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(admin_token, process.env.JWT_SECRET);
     req.user = decoded;
     //驗證token，驗證過後放入req.user
     
@@ -76,7 +74,7 @@ function verifycookie(req, res, next){
       );
 
       // 2) 用同名 cookie 寫回（覆蓋），讓 cookie 也再活 30 分鐘
-      res.cookie('user_token', newToken, {
+      res.cookie('admin_token', newToken, {
         httpOnly: true,
         secure: true,     // 本機 http 測試可暫時設 false；正式 https 要 true
         sameSite: 'none',  // 跨站才用 'none'（且需 secure:true）
@@ -93,4 +91,4 @@ function verifycookie(req, res, next){
   }
 };
 
-module.exports = verifycookie;
+module.exports = adminVerifyCookieData;
