@@ -32,7 +32,7 @@ function adminVerifyCookieData(req, res, next){
     //token的到期時間
     const expMs = decoded.exp * 1000;
     console.log(
-      '到期時間(台北):',
+      '管理員登入到期時間(台北):',
       new Date(expMs).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })
     );
 
@@ -41,7 +41,7 @@ function adminVerifyCookieData(req, res, next){
     const remainingSec = Math.max(0, Math.floor(remaining / 1000));
     const mm = Math.floor(remainingSec / 60);
     const ss = remainingSec % 60;
-    console.log(`剩餘時間: ${mm}分 ${ss}秒（${remainingSec}s）`);
+    console.log(`管理員登入剩餘時間: ${mm}分 ${ss}秒（${remainingSec}s）`);
 
     // 絕對上限：首次登入時間（舊 token 可能沒有，就用現在兜住）
     //取得首次登入時間
@@ -50,7 +50,7 @@ function adminVerifyCookieData(req, res, next){
     const ageMs = nowMs - origIatMs;
     //如果總時常大於12小時則回報錯誤
     if (ageMs > ABSOLUTE_MAX_MS) {
-      return res.status(401).json({ error: '會話已達最長時數，請重新登入' });
+      return res.status(401).json({ error: '管理員登入已達最長時數，請重新登入' });
     }
 
     // 只有在「快到期」才續期（節流）
@@ -82,12 +82,12 @@ function adminVerifyCookieData(req, res, next){
         maxAge: ACCESS_TTL_MS,
         // （可選）domain: '.yourdomain.com' 需要跨子網域時再加
       });
-      console.log("token以延續");
+      console.log("管理員登入token以延續");
     }
 
     next();
   } catch (err) {
-    return res.status(401).json({ error: 'token 無效或已過期' });
+    return res.status(401).json({ error: '管理員登入token 無效或已過期' });
   }
 };
 
