@@ -3,7 +3,7 @@
 //verifyCookie為讀取使用者的cookie使用者是否有提供合法的Token
 const jwt = require('jsonwebtoken');
 
-const ACCESS_TTL_MS = 30 * 60 * 1000;   // 30 分鐘
+const ACCESS_TTL_MS = 60 * 60 * 1000;   // 60 分鐘
 const RENEW_THRESHOLD_MS = 15 * 60 * 1000; // 剩 < 15 分才續
 const ABSOLUTE_MAX_MS = 12 * 60 * 60 * 1000; // 絕對上限 12 小時
 const testTiem = 10 * 60 * 1000; // 10分鐘
