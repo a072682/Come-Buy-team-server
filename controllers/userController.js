@@ -144,7 +144,7 @@ const trimToNull = (data) => {
           origIatMs: Date.now(),
         },
         process.env.JWT_SECRET, // 用來加密的密鑰（讀取.env中的JWT_SECRET）
-        { expiresIn: Math.floor(30 * 60 * 1000 / 1000) + 's' } //過期時間"1800s" 
+        { expiresIn: Math.floor(60 * 60 * 1000 / 1000) + 's' } //過期時間"1800s" 
       );
 
       res.cookie('token', token, {
@@ -152,7 +152,7 @@ const trimToNull = (data) => {
         secure: true,        // ✅ 若是 HTTPS，建議設為 true
         sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
         path: '/',            // 全站有效
-        maxAge: 30 * 60 * 1000, 
+        maxAge: 60 * 60 * 1000, 
         // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
       });
 
