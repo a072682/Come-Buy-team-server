@@ -144,7 +144,7 @@ const trimToNull = (data) => {
           origIatMs: Date.now(),
         },
         process.env.JWT_SECRET, // 用來加密的密鑰（讀取.env中的JWT_SECRET）
-        { expiresIn: Math.floor(30 * 60 * 1000 / 1000) + 's' } //過期時間"1800s"（可選）
+        { expiresIn: Math.floor(10 * 60 * 1000 / 1000) + 's' } //過期時間"1800s" 測試10分鐘
       );
 
       res.cookie('token', token, {
