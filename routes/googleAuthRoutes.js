@@ -32,15 +32,13 @@ router.get('/callback', passport.authenticate('google', { session: false }),
     }, process.env.JWT_SECRET,  { expiresIn: Math.floor(30 * 60 * 1000 / 1000) + 's' }); //過期時間"1800s"
 
     // 把 Token 寫入 Cookie，提供前端認證用
-    res.cookie('token', token, {
+    res.cookie('user_token', token, {
       httpOnly: true,          // 只能被後端讀取，避免 XSS
       secure: true,
       sameSite: 'none',
       path: '/',
-      // maxAge: 30 * 60 * 1000, 
-      // 有效期：30分鐘
-      maxAge: 10 * 60 * 1000, 
-      //測試10分鐘
+      maxAge: 60 * 60 * 1000, 
+      // 有效期：60分鐘
     });
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）
