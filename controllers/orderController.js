@@ -46,7 +46,6 @@ const trimToNull = (data) => {
         //從token解析資料並放入req.user中再從user取出資料
 
         try {
-
             //將order_list跟order_items合併搜尋取出訂單資料
             const orderDataRef = await pool.query(
                 `SELECT 
@@ -121,7 +120,6 @@ const trimToNull = (data) => {
             productionEndTime,
         } = req.body;
         //對進來的檔案進行解構
-        console.log("測試",technique,material,color);
 
         //將資料進行轉換
         const cleanedData = {
@@ -230,10 +228,52 @@ const trimToNull = (data) => {
     };
 //新增訂單
 
+//刪除訂單
+exports.deleteOrder = async (req, res) => {
+    // 從 token 取得 userId
+    const userId = req.user.userId;
+
+    // 從 URL 取得訂單 id
+    const { orderId }= req.body;
+
+    try {
+        // 確認訂單是否屬於此使用者
+        const checkOrder = await pool.query(
+            `SELECT id FROM order_list WHERE id = $1 AND user_id = $2`,
+            [orderId, userId]
+        );
+
+        if (checkOrder.rowCount === 0) {
+            return res.status(404).json({
+                message: '找不到此訂單或您沒有權限刪除它',
+            });
+        }
+
+        // 先刪除 order_items
+        await pool.query(
+            `DELETE FROM order_items WHERE order_id = $1`,
+            [orderId]
+        );
+
+        // 再刪除 order_list
+        await pool.query(
+            `DELETE FROM order_list WHERE id = $1`,
+            [orderId]
+        );
+
+        return res.status(200).json({
+            message: '訂單刪除成功',
+        });
+
+    } catch (err) {
+        console.error('刪除訂單失敗', err);
+        res.status(500).json({ error: '刪除訂單失敗' });
+    }
+};
+//刪除訂單
+
 
 //管理員用api
-
-
 
     //取得所有訂單
         exports.getAllOrder = async (req, res) => {
@@ -404,6 +444,54 @@ const trimToNull = (data) => {
             }
         };
     //審核訂單
+
+    //刪除訂單
+    exports.deleteSingleOrder = async (req, res) => {
+
+        // 從 URL 取得訂單 id
+        const rawId = req.params.id;
+        //轉為數字
+        const orderId = Number(rawId);
+        //如果不存在或不是數字則移除
+        if (!orderId || isNaN(orderId)) {
+            return res.status(400).json({ message: '訂單編號錯誤' });
+        }
+
+        try {
+            // 確認訂單是否存在
+            const checkOrder = await pool.query(
+                `SELECT id FROM order_list WHERE id = $1`,
+                [orderId]
+            );
+
+            if (checkOrder.rowCount === 0) {
+                return res.status(404).json({
+                    message: '找不到此訂單',
+                });
+            }
+
+            // 先刪除 order_items
+            await pool.query(
+                `DELETE FROM order_items WHERE order_id = $1`,
+                [orderId]
+            );
+
+            // 再刪除 order_list
+            await pool.query(
+                `DELETE FROM order_list WHERE id = $1`,
+                [orderId]
+            );
+
+            return res.status(200).json({
+                message: '訂單刪除成功',
+            });
+
+        } catch (err) {
+            console.error('刪除訂單失敗', err);
+            res.status(500).json({ error: '刪除訂單失敗' });
+        }
+    };
+    //刪除訂單
 
     //取得長條圖表用資料：
     exports.getBarChartData = async (req, res) => {

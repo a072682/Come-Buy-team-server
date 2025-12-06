@@ -14,10 +14,16 @@ router.get('/getOrderData', verifyCookie, allowRoles('admin','user','vip','vendo
 //新增訂單資料
 router.post('/registerOrder', verifyCookie,allowRoles('admin','user','vip','vendor'),orderController.registerOrder);
 
+//刪除訂單資料
+router.delete('/deleteOrder/:id', verifyCookie,allowRoles('admin','user','vip','vendor'),orderController.deleteOrder);
+
 //管理員使用區
 
     //取得所有訂單資料
     router.get('/getAllOrder', adminVerifyCookieData, allowRoles('admin'),orderController.getAllOrder);
+
+    //刪除訂單資料
+    router.delete('/deleteSingleOrder/:id', adminVerifyCookieData, allowRoles('admin'),orderController.deleteSingleOrder);
 
     //取得今日所有訂單資料
     router.get('/getToDayOrder', adminVerifyCookieData, allowRoles('admin'),orderController.getToDayOrder);
