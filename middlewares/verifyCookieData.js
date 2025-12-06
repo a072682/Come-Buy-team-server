@@ -11,14 +11,35 @@ const testTiem2 = 5 * 60 * 1000; // 5分鐘
 
 function verifycookie(req, res, next){
   // 讀取cookie 中的user_token
-  const user_token = req.cookies.user_token;
+  //const user_token = req.cookies.user_token;
   // 讀取cookie 中的user_token
   
   // 如果沒有token則回報錯誤
-  if (!user_token) {
-    return res.status(401).json({ error: '未登入或 token 遺失' });
+  // if (!user_token) {
+  //   return res.status(401).json({ error: '未登入或 token 遺失' });
+  // }
+  // 如果沒有token則回報錯誤
+
+  //讀取token
+  const authHeader = req.headers.authorization;
+  //讀取token
+  // 如果沒有token則回報錯誤
+  if (!authHeader) {
+    return res.status(401).json({ error: '未登入（無 token）' });
   }
   // 如果沒有token則回報錯誤
+
+  //token來源會是帶有空白的一串英文字母
+  //因此要進行過濾
+  //過濾token
+  const user_token = authHeader.split(" ")[1];
+  //過濾token
+  //如果格式錯誤則過濾失敗則回報錯誤
+  if (!user_token) {
+    return res.status(401).json({ error: '未登入（token 格式錯誤）' });
+  }
+  //如果格式錯誤則過濾失敗則回報錯誤
+
 
   try {
     //驗證token，驗證過後放入req.user
@@ -76,15 +97,23 @@ function verifycookie(req, res, next){
       );
 
       // 2) 用同名 cookie 寫回（覆蓋），讓 cookie 也再活 30 分鐘
-      res.cookie('user_token', newToken, {
-        httpOnly: true,
-        secure: true,     // 本機 http 測試可暫時設 false；正式 https 要 true
-        sameSite: 'none',  // 跨站才用 'none'（且需 secure:true）
-        path: '/',
-        maxAge: ACCESS_TTL_MS,
-        // （可選）domain: '.yourdomain.com' 需要跨子網域時再加
-      });
-      console.log("token以延續");
+      // res.cookie('user_token', newToken, {
+      //   httpOnly: true,
+      //   secure: true,     // 本機 http 測試可暫時設 false；正式 https 要 true
+      //   sameSite: 'none',  // 跨站才用 'none'（且需 secure:true）
+      //   path: '/',
+      //   maxAge: ACCESS_TTL_MS,
+      //   // （可選）domain: '.yourdomain.com' 需要跨子網域時再加
+      // });
+      // console.log("token以延續");
+
+      //把新的 token 放在回應的 HTTP Header 裡
+      res.set("x-renewed-token", newToken);
+      //把新的 token 放在回應的 HTTP Header 裡
+
+      //把 newToken 暫存起來，讓後面的 API 可以使用
+      req.newToken = newToken;
+      //把 newToken 暫存起來，讓後面的 API 可以使用
     }
 
     next();

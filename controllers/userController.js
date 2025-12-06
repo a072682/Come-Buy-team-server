@@ -147,17 +147,18 @@ const trimToNull = (data) => {
         { expiresIn: Math.floor(60 * 60 * 1000 / 1000) + 's' } //過期時間"1800s" 
       );
 
-      res.cookie('user_token', token, {
-        httpOnly: true,       // ✅ 只能被伺服器端讀取，無法用 JS 讀取，有效防範 XSS 攻擊
-        secure: true,        // ✅ 若是 HTTPS，建議設為 true
-        sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
-        path: '/',            // 全站有效
-        maxAge: 60 * 60 * 1000, 
-        // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
-      });
+      // res.cookie('user_token', token, {
+      //   httpOnly: true,       // ✅ 只能被伺服器端讀取，無法用 JS 讀取，有效防範 XSS 攻擊
+      //   secure: true,        // ✅ 若是 HTTPS，建議設為 true
+      //   sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
+      //   path: '/',            // 全站有效
+      //   maxAge: 60 * 60 * 1000, 
+      //   // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
+      // });
 
       res.json({
         message: '登入成功',
+        token,
         userData:{
           userId: user.id,
           email: user.email,
@@ -237,12 +238,12 @@ const trimToNull = (data) => {
 
   //登出
   exports.logout = (req, res) => {
-    res.clearCookie('user_token', {
-      httpOnly: true,   // 與登入時一致
-      secure: true,     // 與登入時一致
-      sameSite: 'none', // 與登入時一致
-      path: '/',        // 與登入時一致
-    });
+    // res.clearCookie('user_token', {
+    //   httpOnly: true,   // 與登入時一致
+    //   secure: true,     // 與登入時一致
+    //   sameSite: 'none', // 與登入時一致
+    //   path: '/',        // 與登入時一致
+    // });
     res.json({ message: '登出成功' });
   };
 
@@ -650,17 +651,18 @@ const trimToNull = (data) => {
         { expiresIn: Math.floor(60 * 60 * 1000 / 1000) + 's' } //過期時間"1800s" 
       );
 
-      res.cookie('admin_token', token, {
-        httpOnly: true,       // ✅ 只能被伺服器端讀取，無法用 JS 讀取，有效防範 XSS 攻擊
-        secure: true,        // ✅ 若是 HTTPS，建議設為 true
-        sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
-        path: '/',            // 全站有效
-        maxAge: 60 * 60 * 1000, 
-        // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
-      });
+      // res.cookie('admin_token', token, {
+      //   httpOnly: true,       // ✅ 只能被伺服器端讀取，無法用 JS 讀取，有效防範 XSS 攻擊
+      //   secure: true,        // ✅ 若是 HTTPS，建議設為 true
+      //   sameSite: 'none',      // ✅ 可選值：'strict'、'lax'、'none'，防範 CSRF 攻擊
+      //   path: '/',            // 全站有效
+      //   maxAge: 60 * 60 * 1000, 
+      //   // ✅ 設定 cookie 的存活時間，這裡是 30分鐘
+      // });
 
       res.json({
         message: '登入成功',
+        token,
         userData:{
           userId: user.id,
           email: user.email,
