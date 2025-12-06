@@ -234,7 +234,13 @@ exports.deleteOrder = async (req, res) => {
     const userId = req.user.userId;
 
     // 從 URL 取得訂單 id
-    const { orderId }= req.body;
+    const rawId = req.params.id;
+    //轉為數字
+    const orderId = Number(rawId);
+    //如果不存在或不是數字則移除
+    if (!orderId || isNaN(orderId)) {
+        return res.status(400).json({ message: '訂單編號錯誤' });
+    }
 
     try {
         // 確認訂單是否屬於此使用者
