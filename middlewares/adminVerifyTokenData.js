@@ -59,7 +59,7 @@ function adminVerifyTokenData(req, res, next){
     // token的剩餘時間(分)
     const lastTimeMin = Math.floor(lastTimeAllSec / 60);
     // token的剩餘時間(秒)
-    const lastTimeSec = lastTimeSec % 60;
+    const lastTimeSec = lastTimeAllSec % 60;
     console.log(`剩餘時間: ${lastTimeMin}分 ${lastTimeSec}秒（${lastTimeAllSec}s）`);
 
     // 絕對上限：首次登入時間（舊 token 可能沒有，就用現在兜住）
