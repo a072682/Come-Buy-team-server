@@ -101,7 +101,7 @@ exports.userMessageUpLoad = async (req, res) => {
 
             try {
 
-                //將order_list跟order_items合併搜尋取出訂單資料
+                //將order_list跟order_items合併搜尋取出留言資料
                 const allMessageDataRef = await pool.query(
                     `SELECT 
                         users.username,
@@ -188,7 +188,53 @@ exports.userMessageUpLoad = async (req, res) => {
         };
     //取得今日所有留言
 
-    
+    //刪除留言
+    exports.deleteMessage = async (req, res) => {
+
+        // 從 URL 取得訂單 id
+        const rawId = req.params.id;
+        //轉為數字
+        const messageId = Number(rawId);
+        //如果不存在或不是數字則移除
+        if (!messageId || isNaN(messageId)) {
+            return res.status(400).json({ message: '留言錯誤' });
+        }
+
+        try {
+            // 確認留言是否存在
+            const checkMessage = await pool.query(
+                `SELECT id FROM message_list WHERE id = $1`,
+                [messageId]
+            );
+
+            if (checkMessage.rowCount === 0) {
+                return res.status(404).json({
+                    message: '並無此留言',
+                });
+            }
+
+            // 先刪除 message_items
+            await pool.query(
+                `DELETE FROM message_items WHERE message_list_id = $1`,
+                [messageId]
+            );
+
+            // 再刪除 message_list
+            await pool.query(
+                `DELETE FROM message_list WHERE id = $1`,
+                [messageId]
+            );
+
+            return res.status(200).json({
+                message: '留言刪除成功',
+            });
+
+        } catch (err) {
+            console.error('留言訂單失敗', err);
+            res.status(500).json({ error: '留言訂單失敗' });
+        }
+    };
+    //刪除留言
 
 
 //管理員用api
