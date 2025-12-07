@@ -23,7 +23,7 @@ const defaultUserData =
     avatar_id:null
 }
 
-console.log('GOOGLE_CALLBACK_URL =', process.env.GOOGLE_CALLBACK_URL);
+//console.log('GOOGLE_CALLBACK_URL =', process.env.GOOGLE_CALLBACK_URL);
 
 // 註冊 Google 登入策略
 passport.use(//預設名稱為"google"如果想改名則
