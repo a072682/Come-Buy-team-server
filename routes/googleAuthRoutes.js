@@ -45,7 +45,7 @@ router.get('/callback', passport.authenticate('google', { session: false }),
 
     //如果使用token則使用此區塊內容
     //把新的 token 放在回應的 HTTP Header 裡
-    res.set("x-renewed-token", newToken);
+    res.set("x-renewed-token", token);
     //把新的 token 放在回應的 HTTP Header 裡
 
     //如果使用token則使用此區塊內容
