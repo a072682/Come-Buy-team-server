@@ -29,8 +29,9 @@ router.get('/callback', passport.authenticate('google', { session: false }),
       email: req.user.email,
       role: req.user.role,
       auth_provider:req.user.auth_provider
-    }, process.env.JWT_SECRET,  { expiresIn: Math.floor(30 * 60 * 1000 / 1000) + 's' }); //過期時間"1800s"
+    }, process.env.JWT_SECRET,  { expiresIn: Math.floor(60 * 60 * 1000 / 1000) + 's' }); //過期時間"1hr"
 
+    //如果使用cookie使用此區塊內容
     // 把 Token 寫入 Cookie，提供前端認證用
     res.cookie('user_token', token, {
       httpOnly: true,          // 只能被後端讀取，避免 XSS
@@ -40,6 +41,14 @@ router.get('/callback', passport.authenticate('google', { session: false }),
       maxAge: 60 * 60 * 1000, 
       // 有效期：60分鐘
     });
+    //如果使用cookie使用此區塊內容
+
+    //如果使用token則使用此區塊內容
+    //把新的 token 放在回應的 HTTP Header 裡
+    res.set("x-renewed-token", newToken);
+    //把新的 token 放在回應的 HTTP Header 裡
+
+    //如果使用token則使用此區塊內容
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）
     res.redirect('https://a072682.github.io/Come-Buy-team-work/#/'); // ✅ 可改成你的前端登入成功頁
