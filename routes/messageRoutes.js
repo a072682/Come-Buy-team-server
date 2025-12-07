@@ -31,7 +31,7 @@ router.post('/messageUpLoad', verifyTokenData,allowRoles('admin','user','vip','v
         messageController.getToDayMessage);
 
     //刪除指定留言資料
-    router.delete('/deleteMessage', adminVerifyTokenData, allowRoles('admin'),
+    router.delete('/deleteMessage/:id', adminVerifyTokenData, allowRoles('admin'),
         messageController.deleteMessage);
 
         
