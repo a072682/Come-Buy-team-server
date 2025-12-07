@@ -33,14 +33,14 @@ router.get('/callback', passport.authenticate('google', { session: false }),
 
     //如果使用cookie使用此區塊內容
     // 把 Token 寫入 Cookie，提供前端認證用
-    res.cookie('user_token', token, {
-      httpOnly: true,          // 只能被後端讀取，避免 XSS
-      secure: true,
-      sameSite: 'none',
-      path: '/',
-      maxAge: 60 * 60 * 1000, 
-      // 有效期：60分鐘
-    });
+    // res.cookie('user_token', token, {
+    //   httpOnly: true,          // 只能被後端讀取，避免 XSS
+    //   secure: true,
+    //   sameSite: 'none',
+    //   path: '/',
+    //   maxAge: 60 * 60 * 1000, 
+    //   // 有效期：60分鐘
+    // });
     //如果使用cookie使用此區塊內容
 
     //如果使用token則使用此區塊內容
