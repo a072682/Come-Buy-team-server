@@ -45,13 +45,13 @@ router.get('/callback', passport.authenticate('google', { session: false }),
 
     //如果使用token則使用此區塊內容
     //把新的 token 放在回應的 HTTP Header 裡
-    res.set("x-renewed-token", token);
+    // res.set("x-renewed-token", token);
     //把新的 token 放在回應的 HTTP Header 裡
 
     //如果使用token則使用此區塊內容
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）
-    res.redirect('https://a072682.github.io/Come-Buy-team-work/#/'); 
+    res.redirect(`https://a072682.github.io/Come-Buy-team-work/#/token?value=${token}`); 
     // 前端登入成功頁
   }
 );
