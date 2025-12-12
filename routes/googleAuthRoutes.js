@@ -22,8 +22,6 @@ router.get('/callback', passport.authenticate('google', { session: false }),
     //驗證回來的 code，換取使用者資料，並觸發 google.js 的 verify callback
     // 使用 passport 回傳的 req.user 產生 JWT Token
 
-    console.log("我到callback了");
-
 
     const token = jwt.sign({
       userId: req.user.id,
@@ -51,8 +49,6 @@ router.get('/callback', passport.authenticate('google', { session: false }),
     //把新的 token 放在回應的 HTTP Header 裡
 
     //如果使用token則使用此區塊內容
-
-    console.log("即將跳轉網址");
 
     // 登入成功後導向前端指定頁面（也可以用 query string 傳資料）
     res.redirect(`https://a072682.github.io/Come-Buy-team-work/#/token?value=${token}`); 
