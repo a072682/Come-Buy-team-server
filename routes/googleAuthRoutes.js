@@ -22,6 +22,8 @@ router.get('/callback', passport.authenticate('google', { session: false }),
     //驗證回來的 code，換取使用者資料，並觸發 google.js 的 verify callback
     // 使用 passport 回傳的 req.user 產生 JWT Token
 
+    console.log("我到callback了");
+
 
     const token = jwt.sign({
       userId: req.user.id,
