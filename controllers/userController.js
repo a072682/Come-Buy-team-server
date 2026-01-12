@@ -618,6 +618,72 @@ const trimToNull = (data) => {
     }
   };
 
+  //刪除會員資料：
+  exports.deleteUser = async (req, res) => {
+
+    //先進行解構
+      const { id } = req.body;
+    //先進行解構
+
+    try {
+
+      //檢查ID不可全為空
+        if (!id) {
+          return (res.status(400).json({ error: "請提供會員ID" }));
+        }
+      //檢查ID不可全為空
+
+      // 先找 user_list.id
+      const listResult = await pool.query(
+        `SELECT id FROM user_list WHERE user_id = $1`,
+        [id]
+      );
+
+      if (listResult.rowCount === 0) {
+        return res.status(404).json({ message: "找不到會員資料" });
+      }
+
+      const userListId = listResult.rows[0].id;
+
+      // 刪 user_profiles（最底層會員資料）
+      await pool.query(
+        `DELETE FROM user_profiles WHERE user_list_id = $1`,
+        [userListId]
+      );
+
+      // 刪 user_list 會員資料
+      await pool.query(
+        `DELETE FROM user_list WHERE user_id = $1`,
+        [id]
+      );
+
+      // 刪 users 會員資料
+      const userResult = await pool.query(
+        `DELETE FROM users WHERE id = $1 RETURNING id, email`,
+        [id]
+      );
+      
+      // 沒有刪到任何資料
+      if (userResult.rowCount === 0) {
+        return res.status(404).json({
+          message: "找不到此會員，刪除失敗",
+        });
+      }
+
+      // 成功
+      return res.json({
+        message: "會員刪除成功",
+        deletedUser: deleteResult.rows[0],
+      });
+      
+    } catch (err) {
+      console.error("會員刪除失敗", err);
+      return res.status(500).json({ error: "會員刪除失敗" });
+    }
+  };
+
+
+
   //管理員登入
   exports.adminLogin = async (req, res) => {
     const { email, password } = req.body;

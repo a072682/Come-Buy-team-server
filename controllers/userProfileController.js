@@ -81,7 +81,6 @@ exports.getUserProfile = async (req, res) => {
     }
 };
 
-
 /*新建會員的個資*/
 exports.createUserProfile = async (req, res) => {
     //先進行解構

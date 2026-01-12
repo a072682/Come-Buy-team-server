@@ -64,6 +64,11 @@ router.post('/userPasswordUpLoad', verifyTokenData, allowRoles('admin','user','v
     //修改會員權限
     router.post('/roleChange',adminVerifyTokenData,allowRoles('admin'), userController.roleChange);
 
+    //刪除會員資料
+    router.delete('/deleteUser',adminVerifyTokenData,allowRoles('admin'), userController.deleteUser);
+
+    
+
     //圓環圖資料取得
     router.get('/getChartData',adminVerifyTokenData,allowRoles('admin'), userController.getChartData);
 
