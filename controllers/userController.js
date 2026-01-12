@@ -681,7 +681,7 @@ const trimToNull = (data) => {
       // 成功
       return res.json({
         message: "會員刪除成功",
-        deletedUser: deleteResult.rows[0],
+        deletedUser: userResult.rows[0],
       });
       
     } catch (err) {
