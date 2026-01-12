@@ -639,6 +639,8 @@ const trimToNull = (data) => {
         [id]
       );
 
+      console.log("中途資料",listResult);
+
       if (listResult.rowCount === 0) {
         return res.status(404).json({ message: "找不到會員資料" });
       }
