@@ -657,6 +657,12 @@ const trimToNull = (data) => {
         [id]
       );
 
+      // 刪 daily_logins 計數會員資料
+      await pool.query(
+        `DELETE FROM daily_logins WHERE user_id = $1`,
+        [id]
+      );
+
       // 刪 users 會員資料
       const userResult = await pool.query(
         `DELETE FROM users WHERE id = $1 RETURNING id, email`,
