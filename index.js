@@ -51,20 +51,25 @@ app.use('/api', proxyRoutes);
 
 //測試資料庫連線的路由
 app.get('/test-db', async (req, res) => {
-// 這個函式只會在使用者訪問 http://localhost:5100/test-db 時執行
-try {
-    const result = await pool.query('SELECT NOW()');
-    // 用 pool 發送 SQL 指令：取得目前資料庫時間
-    res.json({ message: '連線成功', time: result.rows[0] });
-    // 回傳 JSON 結果給使用者
-} catch (err) {
-    console.error(err);
-    res.status(500).send('連線失敗');
-    // 若有錯誤，顯示在後端並告知前端
-    //res表示伺服器要回傳給使用者的內容
-    //.status(500)設定狀態碼為 500（伺服器錯誤）
-    //傳送純文字 "連線失敗" 作為回應內容
-}
+    // 這個函式只會在使用者訪問 http://localhost:5100/test-db 時執行
+    try {
+        const result = await pool.query('SELECT NOW()');
+        // 用 pool 發送 SQL 指令：取得目前資料庫時間
+        res.json({ message: '連線成功', time: result.rows[0] });
+        // 回傳 JSON 結果給使用者
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('連線失敗');
+        // 若有錯誤，顯示在後端並告知前端
+        //res表示伺服器要回傳給使用者的內容
+        //.status(500)設定狀態碼為 500（伺服器錯誤）
+        //傳送純文字 "連線失敗" 作為回應內容
+    }
+});
+
+// Render 保持喚醒用
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
 });
 
 app.use('/avatarImg', avatarImgUploadRoutes);//會員頭像圖片上傳api
